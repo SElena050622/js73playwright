@@ -30,12 +30,12 @@ test("test about invalid login-password", async ({page}) => {
  // Click 'Войти'
   await page.getByRole('link', { name: 'Войти'}).click();
  
- // Click text="Email"
+ // "дз 7.3  п.4.повторите тест 1, используя невалидные данные для авторизации"
  //const user = require("../user");
-  await page.getByPlaceholder('Email').fill("semenova@mail.ru");
+  await page.getByPlaceholder('Email').fill("petrov@mail.ru"); 
  
  //  Click text="Пароль"  
- await page.getByPlaceholder('Пароль').fill("08022023");
+ await page.getByPlaceholder('Пароль').fill("10022023");
 
  //  Click profile
   await page.getByTestId('login-submit-btn').click();  
@@ -45,6 +45,4 @@ test("test about invalid login-password", async ({page}) => {
   ).toBeVisible();
   await browser.close();
 });
-
- 
 
