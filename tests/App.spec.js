@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 test("test about sign in", async ({page}) => {
  
-   await page.goto("https://netology.ru", { timeout: 100000 } ); 
+   await page.goto("https://netology.ru", { timeout: 60000 } ); 
 
   // Click 'Войти'
   await page.getByRole('link', { name: 'Войти'}).click();   
@@ -20,28 +20,29 @@ test("test about sign in", async ({page}) => {
   await expect(
     page.getByRole("heading", { name: "Мои курсы и профессии" })
   ).toBeVisible();
-  //await browser.close();
+  //await browser.close(); 
 });
 
 test("test about invalid login-password", async ({page}) => {
  
-  await page.goto("https://netology.ru", { timeout: 100000 } ); 
+  await page.goto("https://netology.ru", { timeout: 60000 } ); 
 
  // Click 'Войти'
   await page.getByRole('link', { name: 'Войти'}).click();
  
- // "дз 7.3  п.4.повторите тест 1, используя невалидные данные для авторизации"
- //const user = require("../user");
-  await page.getByPlaceholder('Email').fill("petrov@mail.ru"); 
+ // Click невалидная регистрация c PageObgect"
+  const user = require("../user");
+  await page.getByPlaceholder("login-error-hint").fill(user.validEmail); 
+  await page.getByPlaceholder("Пароль").fill(user.validPassword);
+   
+  /*  Click невалидная регистрация напрямую в коде
+  await page.getByPlaceholder('Email').fill("petrov@mail.ru");    
+  await page.getByPlaceholder('Пароль').fill("19022023");*/
  
- //  Click text="Пароль"  
- await page.getByPlaceholder('Пароль').fill("10022023");
-
- //  Click profile
   await page.getByTestId('login-submit-btn').click();  
-  await expect(page).toHaveURL("https://netology.ru/profile");
+  await expect(page).toHaveURL("https://netology.ru/?modal=sign_in");
   await expect(
-    page.getByRole("heading", { name: "Мои курсы и профессии" })
+    page.getByRole("Email", { name: "Вы ввели неправильно логин или пароль" })
   ).toBeVisible();
   await browser.close();
 });
